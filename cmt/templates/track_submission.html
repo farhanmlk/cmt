@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Track Submission | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="form-card">
+      <h3>Track Submission</h3>
+      <form method="post">
+        <div class="form-row">
+          <div class="form-group"><label>Abstract ID</label><input type="text" name="abstract_id" placeholder="CMT-2026-0001" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Track Status</button>
+      </form>
+    </div>
+
+    {% if sub %}
+    <div class="two-col" style="margin-top:28px">
+      <div class="card card-body">
+        <h3>{{ sub.paper_title }}</h3>
+        <p style="color:var(--muted);font-size:13.5px">{{ sub.conference.name }} &middot; {{ sub.author.name }}</p>
+        <div class="kv"><span class="k">Submission Date</span><span class="v">{{ sub.submitted_at.strftime('%d %b %Y') }}</span></div>
+        <div class="kv"><span class="k">Last Updated</span><span class="v">{{ sub.updated_at.strftime('%d %b %Y') }}</span></div>
+        {% if sub.reviewer_comments %}
+        <div class="kv"><span class="k">Reviewer Comments</span><span class="v">{{ sub.reviewer_comments }}</span></div>
+        {% endif %}
+      </div>
+      <div class="side-box">
+        <h4>Status Timeline</h4>
+        {% set stages = ["Submitted", "Under Review", "Accepted", "Final Accepted"] %}
+        {% set idx = stages.index(sub.status) if sub.status in stages else -1 %}
+        <div class="timeline">
+          {% for stage in stages %}
+          <div class="timeline-item {{ 'done' if loop.index0 <= idx else '' }} {{ 'active' if loop.index0 == idx else '' }}">
+            {{ stage }}
+          </div>
+          {% endfor %}
+          {% if sub.status in ["Rejected", "Revision Required"] %}
+          <div class="timeline-item active" style="color:#c62a2a;font-weight:700">{{ sub.status }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% elif searched %}
+    <div class="empty-state">No matching submission found.</div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

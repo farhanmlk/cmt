@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Conference Materials | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Conference Materials</h2>
+    <p class="section-sub">Download brochures and flyers for each conference.</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Conference</th><th>Department</th><th>Brochure</th><th>Flyer</th></tr>
+        {% for c in conferences %}
+        <tr>
+          <td><a href="{{ url_for('conference_detail', cid=c.id) }}"><strong>{{ c.name }}</strong></a></td>
+          <td>{{ c.department.name }}</td>
+          <td>{% if c.brochure %}<a class="btn btn-outline-navy btn-sm" href="{{ url_for('download_material', kind='brochure', cid=c.id) }}">Download</a>{% else %}&mdash;{% endif %}</td>
+          <td>{% if c.flyer %}<a class="btn btn-outline-navy btn-sm" href="{{ url_for('download_material', kind='flyer', cid=c.id) }}">Download</a>{% else %}&mdash;{% endif %}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" style="text-align:center;color:var(--muted)">No materials uploaded yet.</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

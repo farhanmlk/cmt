@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Call for Papers | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Call for Papers</h2>
+    <p class="section-sub">Conferences currently open for paper submissions, sorted by nearest deadline.</p>
+    <div class="grid grid-3">
+      {% for c in conferences %}
+      {% include "_conference_card.html" %}
+      {% else %}
+      <div class="empty-state">No open calls for papers right now.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

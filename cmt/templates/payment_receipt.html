@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Payment Receipt | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="form-card" style="text-align:center">
+      <div style="font-size:44px;margin-bottom:10px">&#9989;</div>
+      <h3>Payment Receipt</h3>
+      <div class="side-box" style="text-align:left;margin-top:20px">
+        <div class="kv"><span class="k">Payment ID</span><span class="v">{{ reg.payment_id }}</span></div>
+        <div class="kv"><span class="k">Registration ID</span><span class="v">{{ reg.registration_id }}</span></div>
+        <div class="kv"><span class="k">Author</span><span class="v">{{ reg.author.name }}</span></div>
+        <div class="kv"><span class="k">Conference</span><span class="v">{{ reg.conference.name }}</span></div>
+        <div class="kv"><span class="k">Amount Paid</span><span class="v">&#8377;{{ reg.amount }}</span></div>
+        <div class="kv"><span class="k">Transaction Date</span><span class="v">{{ reg.registered_at.strftime('%d %b %Y, %H:%M') }}</span></div>
+        <div class="kv"><span class="k">Status</span><span class="v"><span class="badge badge-paid">Paid</span></span></div>
+      </div>
+      <button onclick="window.print()" class="btn btn-outline-navy" style="margin-top:20px">Print / Download Receipt</button>
+    </div>
+  </div>
+</section>
+{% endblock %}

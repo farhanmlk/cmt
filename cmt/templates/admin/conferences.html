@@ -1,0 +1,36 @@
+{% extends "admin/_layout.html" %}
+{% set active = 'conferences' %}
+{% block title %}Manage Conferences | CMT{% endblock %}
+{% block admin_content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+  <div>
+    <h2 class="section-title" style="margin-bottom:2px">Manage Conferences</h2>
+    <p style="color:var(--muted);font-size:13.5px;margin:0">Add, edit, or remove conferences.</p>
+  </div>
+  <a href="{{ url_for('admin_conference_add') }}" class="btn btn-primary">+ Add Conference</a>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <tr><th>Name</th><th>Department</th><th>Status</th><th>Dates</th><th>Fee</th><th>Actions</th></tr>
+    {% for c in conferences %}
+    <tr>
+      <td><strong>{{ c.name }}</strong></td>
+      <td>{{ c.department.name }}</td>
+      <td><span class="badge badge-{{ c.status }}">{{ c.status }}</span></td>
+      <td>{{ c.start_date.strftime('%d %b %Y') }} &ndash; {{ c.end_date.strftime('%d %b %Y') }}</td>
+      <td>&#8377;{{ c.registration_fee }}</td>
+      <td style="white-space:nowrap">
+        <a class="btn btn-outline-navy btn-sm" href="{{ url_for('conference_detail', cid=c.id) }}">View</a>
+        <a class="btn btn-outline-navy btn-sm" href="{{ url_for('admin_conference_edit', cid=c.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('admin_conference_delete', cid=c.id) }}" style="display:inline" onsubmit="return confirm('Delete this conference? This cannot be undone.');">
+          <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" style="text-align:center;color:var(--muted)">No conferences yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

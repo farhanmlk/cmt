@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}About | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container" style="max-width:800px">
+    <h2 class="section-title">About Conference Management Tool (CMT)</h2>
+    <p style="color:var(--muted)">
+      CMT is a centralized university platform designed to manage the complete conference
+      lifecycle, including conference publishing, author registration, paper submission,
+      verification, payment, review tracking and reporting.
+    </p>
+    <p style="color:var(--muted)">
+      Built for <strong>Lok Jagruti Kendra University (LJ University)</strong> and maintained by the
+      <strong>IEEE Student Branch, LJ University</strong>, CMT brings every department's conferences
+      &mdash; past, current and upcoming &mdash; onto one platform so authors, reviewers and
+      administrators can collaborate seamlessly.
+    </p>
+    <div class="grid grid-3" style="margin-top:32px">
+      <div class="card card-body"><h3 style="font-size:15.5px">For Authors</h3><p style="color:var(--muted);font-size:13.5px">Register once, submit papers with an instant Abstract ID, and track review status in real time.</p></div>
+      <div class="card card-body"><h3 style="font-size:15.5px">For Departments</h3><p style="color:var(--muted);font-size:13.5px">Organize and publish conferences by department, with brochures, deadlines and speakers.</p></div>
+      <div class="card card-body"><h3 style="font-size:15.5px">For Administrators</h3><p style="color:var(--muted);font-size:13.5px">Manage submissions, verify authors, track payments and generate reports from one dashboard.</p></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

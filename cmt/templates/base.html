@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Conference Management Tool | LJ University{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="{{ url_for('index') }}" class="brand">
+      <div class="brand-badge">LJ</div>
+      <div class="brand-text">
+        Conference Management Tool
+        <small>LJ University &middot; IEEE Student Branch</small>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('conferences') }}">Conferences</a>
+      <a href="{{ url_for('departments') }}">Departments</a>
+      <a href="{{ url_for('call_for_papers') }}">Call for Papers</a>
+      <a href="{{ url_for('submit_paper') }}">Submit Paper</a>
+      <a href="{{ url_for('track_submission') }}">Track Submission</a>
+      <a href="{{ url_for('materials') }}">Materials</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      {% if current_author %}
+        <a href="{{ url_for('dashboard') }}">My Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+      {% endif %}
+    </div>
+    <div class="nav-cta">
+      {% if not current_author %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-sm">Register</a>
+      {% endif %}
+      <button class="hamburger" id="hamburger">&#9776;</button>
+    </div>
+  </div>
+</nav>
+
+<div class="flash-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+{% block content %}{% endblock %}
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h4>Conference Management Tool</h4>
+      <p style="font-size:13.5px;color:#aebbdd;max-width:320px">
+        A centralized platform for managing conferences, author registrations and research
+        paper submissions across all departments of Lok Jagruti Kendra University.
+      </p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <a href="{{ url_for('conferences') }}">Conferences</a>
+      <a href="{{ url_for('departments') }}">Departments</a>
+      <a href="{{ url_for('call_for_papers') }}">Call for Papers</a>
+      <a href="{{ url_for('submit_paper') }}">Submit Paper</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <a href="{{ url_for('track_submission') }}">Track Submission</a>
+      <a href="{{ url_for('materials') }}">Materials</a>
+      <a href="{{ url_for('about') }}">About CMT</a>
+      <a href="{{ url_for('contact') }}">Contact Us</a>
+    </div>
+    <div>
+      <h4>Organized By</h4>
+      <p style="font-size:13.5px;color:#aebbdd">
+        IEEE Student Branch<br>Lok Jagruti Kendra University<br>Ahmedabad, Gujarat, India
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; {{ 2026 }} Lok Jagruti Kendra University &middot; IEEE Student Branch &middot; Conference Management Tool (CMT)
+    &middot; <a href="{{ url_for('admin_login') }}" style="display:inline">Admin Login</a>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

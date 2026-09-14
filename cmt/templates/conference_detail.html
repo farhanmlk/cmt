@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ conf.name }} | CMT{% endblock %}
+{% block content %}
+
+<section class="detail-hero">
+  <div class="container">
+    <span class="badge badge-{{ conf.status }}">{{ conf.status }}</span>
+    <h1 style="margin-top:12px">{{ conf.name }}</h1>
+    <div>
+      <span class="chip">&#127891; {{ conf.department.name }}</span>
+      <span class="chip">&#128197; {{ conf.start_date.strftime('%d %b %Y') }} &ndash; {{ conf.end_date.strftime('%d %b %Y') }}</span>
+      <span class="chip">&#128205; {{ conf.venue }}</span>
+    </div>
+    <div class="hero-actions" style="margin-top:22px">
+      <a href="{{ url_for('register_conference', cid=conf.id) if current_author else url_for('login') }}" class="btn btn-accent">Register Now</a>
+      <a href="{{ url_for('submit_paper') }}" class="btn btn-outline">Submit Paper</a>
+      {% if conf.brochure %}<a href="{{ url_for('download_material', kind='brochure', cid=conf.id) }}" class="btn btn-outline">Download Brochure</a>{% endif %}
+      {% if conf.flyer %}<a href="{{ url_for('download_material', kind='flyer', cid=conf.id) }}" class="btn btn-outline">Download Flyer</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container two-col">
+    <div>
+      <div class="card card-body" style="margin-bottom:22px">
+        <h3>About the Conference</h3>
+        <p style="color:var(--muted)">{{ conf.description }}</p>
+        {% if conf.objectives %}
+        <h4 style="margin-top:18px;font-size:15px;color:var(--navy)">Objectives</h4>
+        <p style="color:var(--muted)">{{ conf.objectives }}</p>
+        {% endif %}
+      </div>
+
+      {% if conf.schedule %}
+      <div class="card card-body" style="margin-bottom:22px">
+        <h3>Conference Schedule</h3>
+        <div class="timeline">
+          {% for line in conf.schedule.split('\n') if line.strip() %}
+          <div class="timeline-item done"><strong>{{ line }}</strong></div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% if conf.keynote_speakers %}
+      <div class="card card-body" style="margin-bottom:22px">
+        <h3>Keynote Speakers</h3>
+        <ul style="color:var(--muted);padding-left:18px">
+          {% for line in conf.keynote_speakers.split('\n') if line.strip() %}
+          <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      {% if conf.committee %}
+      <div class="card card-body">
+        <h3>Organizing Committee</h3>
+        <ul style="color:var(--muted);padding-left:18px">
+          {% for line in conf.committee.split('\n') if line.strip() %}
+          <li>{{ line }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+
+    <div>
+      <div class="side-box">
+        <h4>Important Dates</h4>
+        <div class="kv"><span class="k">Start Date</span><span class="v">{{ conf.start_date.strftime('%d %b %Y') }}</span></div>
+        <div class="kv"><span class="k">End Date</span><span class="v">{{ conf.end_date.strftime('%d %b %Y') }}</span></div>
+        <div class="kv"><span class="k">Registration Deadline</span><span class="v">{{ conf.registration_deadline.strftime('%d %b %Y') }}</span></div>
+        <div class="kv"><span class="k">Paper Submission Deadline</span><span class="v">{{ conf.submission_deadline.strftime('%d %b %Y') }}</span></div>
+      </div>
+      <div class="side-box">
+        <h4>Conference Info</h4>
+        <div class="kv"><span class="k">Department</span><span class="v">{{ conf.department.name }}</span></div>
+        <div class="kv"><span class="k">Venue</span><span class="v">{{ conf.venue }}</span></div>
+        <div class="kv"><span class="k">Registration Fee</span><span class="v">&#8377;{{ conf.registration_fee }}</span></div>
+      </div>
+      <div class="side-box">
+        <h4>Contact</h4>
+        <div class="kv"><span class="k">Email</span><span class="v">{{ conf.contact_email }}</span></div>
+        <div class="kv"><span class="k">Phone</span><span class="v">{{ conf.contact_phone }}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if active=='dashboard' }}">&#128202; Dashboard</a>
+    <a href="{{ url_for('admin_conferences') }}" class="{{ 'active' if active=='conferences' }}">&#127891; Conferences</a>
+    <a href="{{ url_for('admin_authors') }}" class="{{ 'active' if active=='authors' }}">&#128100; Authors</a>
+    <a href="{{ url_for('admin_submissions') }}" class="{{ 'active' if active=='submissions' }}">&#128196; Submissions</a>
+    <a href="{{ url_for('admin_reports') }}" class="{{ 'active' if active=='reports' }}">&#128203; Reports</a>
+    <a href="{{ url_for('admin_logout') }}">&#8618; Logout</a>
+  </aside>
+  <main class="admin-main">
+    {% block admin_content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

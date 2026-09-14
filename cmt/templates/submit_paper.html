@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Submit Paper | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="form-card">
+      <h3>Submit Paper</h3>
+      <p style="color:var(--muted);font-size:13.5px;margin-top:-8px">Author: {{ author.name }} ({{ author.author_code }})</p>
+      <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>Conference</label>
+          <select name="conference_id" required>
+            <option value="">Select conference</option>
+            {% for c in conferences %}<option value="{{ c.id }}">{{ c.name }} &mdash; {{ c.department.name }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="form-group"><label>Paper Title</label><input type="text" name="paper_title" required></div>
+        <div class="form-group"><label>Abstract</label><textarea name="abstract" required></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Keywords</label><input type="text" name="keywords" placeholder="comma separated"></div>
+          <div class="form-group">
+            <label>Presentation Type</label>
+            <select name="presentation_type">
+              <option>Paper Presentation</option>
+              <option>Poster Presentation</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label>Co-authors</label><input type="text" name="co_authors" placeholder="comma separated names"></div>
+        <div class="form-group">
+          <label>Upload Paper (PDF/DOC/DOCX)</label>
+          <input type="file" name="paper_file" accept=".pdf,.doc,.docx">
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Submit Paper</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

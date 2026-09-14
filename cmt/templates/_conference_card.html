@@ -1,0 +1,15 @@
+<div class="card conf-card">
+  <div class="conf-card-top"></div>
+  <div class="card-body">
+    <span class="badge badge-{{ c.status }}">{{ c.status }}</span>
+    <h3 style="margin-top:10px">{{ c.name }}</h3>
+    <p style="font-size:13px;color:var(--muted);margin:0 0 8px">{{ c.department.name }}</p>
+    <div class="conf-meta">
+      <span>&#128197; {{ c.start_date.strftime('%d %b %Y') }} &ndash; {{ c.end_date.strftime('%d %b %Y') }}</span>
+      <span>&#128205; {{ c.venue }}</span>
+      <span>&#128196; Submission deadline: {{ c.submission_deadline.strftime('%d %b %Y') }}</span>
+    </div>
+    <p class="conf-desc">{{ c.description }}</p>
+    <a href="{{ url_for('conference_detail', cid=c.id) }}" class="btn btn-outline-navy btn-sm btn-block">View Details</a>
+  </div>
+</div>

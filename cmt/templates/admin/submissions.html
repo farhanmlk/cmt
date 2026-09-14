@@ -1,0 +1,58 @@
+{% extends "admin/_layout.html" %}
+{% set active = 'submissions' %}
+{% block title %}Manage Submissions | CMT{% endblock %}
+{% block admin_content %}
+<h2 class="section-title">Manage Submissions</h2>
+<p class="section-sub">Review, update status and add comments for all paper submissions.</p>
+
+<form class="search-bar" method="get">
+  <input type="text" name="q" placeholder="Search title or abstract ID..." value="{{ q }}">
+  <select name="conference">
+    <option value="">All Conferences</option>
+    {% for c in conferences %}<option value="{{ c.id }}" {{ 'selected' if conf_id==c.id }}>{{ c.name }}</option>{% endfor %}
+  </select>
+  <select name="department">
+    <option value="">All Departments</option>
+    {% for d in departments %}<option value="{{ d.id }}" {{ 'selected' if dept_id==d.id }}>{{ d.name }}</option>{% endfor %}
+  </select>
+  <select name="status">
+    <option value="">All Status</option>
+    {% for s in statuses %}<option value="{{ s }}" {{ 'selected' if status==s }}>{{ s }}</option>{% endfor %}
+  </select>
+  <button class="btn btn-primary btn-sm" type="submit">Filter</button>
+  <a href="{{ url_for('admin_submissions') }}" class="btn btn-outline-navy btn-sm">Reset</a>
+</form>
+
+<div class="table-wrap">
+  <table>
+    <tr><th>Abstract ID</th><th>Author</th><th>Title</th><th>Conference</th><th>Dept</th><th>Type</th><th>Date</th><th>Status</th><th>Action</th></tr>
+    {% for s in submissions %}
+    <tr>
+      <td>{{ s.abstract_id }}</td>
+      <td>{{ s.author.name }}</td>
+      <td>{{ s.paper_title }}</td>
+      <td>{{ s.conference.name }}</td>
+      <td>{{ s.conference.department.name }}</td>
+      <td>{{ s.presentation_type }}</td>
+      <td>{{ s.submitted_at.strftime('%d %b %Y') }}</td>
+      <td><span class="badge badge-{{ s.status|lower|replace(' ', '-') }}">{{ s.status }}</span></td>
+      <td>
+        <details>
+          <summary style="cursor:pointer;color:var(--blue);font-weight:700;font-size:13px">Update</summary>
+          <form method="post" action="{{ url_for('admin_submission_update', sid=s.id) }}" style="margin-top:10px;min-width:220px">
+            <select name="status" style="margin-bottom:8px">
+              {% for st in statuses %}<option value="{{ st }}" {{ 'selected' if s.status==st }}>{{ st }}</option>{% endfor %}
+            </select>
+            <textarea name="reviewer_comments" placeholder="Reviewer comments" style="min-height:60px;margin-bottom:8px">{{ s.reviewer_comments }}</textarea>
+            {% if s.paper_file %}<a href="{{ url_for('download_paper', sid=s.id) }}" class="btn btn-outline-navy btn-sm" style="margin-bottom:8px">Download Paper</a><br>{% endif %}
+            <button class="btn btn-primary btn-sm" type="submit">Save</button>
+          </form>
+        </details>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="9" style="text-align:center;color:var(--muted)">No submissions found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

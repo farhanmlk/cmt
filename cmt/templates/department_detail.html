@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ dept.name }} | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <span class="badge badge-current">{{ dept.code }}</span>
+    <h2 class="section-title" style="margin-top:10px">{{ dept.name }}</h2>
+    <p class="section-sub">{{ dept.description }}</p>
+    <div class="grid grid-3">
+      {% for c in conferences %}
+      {% include "_conference_card.html" %}
+      {% else %}
+      <div class="empty-state">No conferences yet in this department.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

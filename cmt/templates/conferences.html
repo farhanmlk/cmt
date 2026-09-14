@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Conferences | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">All Conferences</h2>
+    <p class="section-sub">Search, filter and explore every conference conducted across LJ University.</p>
+
+    <form class="search-bar" method="get">
+      <input type="text" name="q" placeholder="Search conference by name..." value="{{ q }}">
+      <select name="department">
+        <option value="">All Departments</option>
+        {% for d in departments %}
+        <option value="{{ d.id }}" {{ 'selected' if dept_id == d.id }}>{{ d.name }}</option>
+        {% endfor %}
+      </select>
+      <select name="status">
+        <option value="">All Status</option>
+        <option value="upcoming" {{ 'selected' if status=='upcoming' }}>Upcoming</option>
+        <option value="current" {{ 'selected' if status=='current' }}>Current</option>
+        <option value="past" {{ 'selected' if status=='past' }}>Past</option>
+      </select>
+      <button class="btn btn-primary btn-sm" type="submit">Search</button>
+      <a href="{{ url_for('conferences') }}" class="btn btn-outline-navy btn-sm">Reset</a>
+    </form>
+
+    <div class="grid grid-3">
+      {% for c in conferences %}
+      {% include "_conference_card.html" %}
+      {% else %}
+      <div class="empty-state">
+        <div class="icon">&#128269;</div>
+        No conferences match your search. Try adjusting the filters.
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

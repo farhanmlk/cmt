@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Contact | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container two-col">
+    <div class="form-card" style="margin:0">
+      <h3>Send us a message</h3>
+      <form method="post">
+        <div class="form-row">
+          <div class="form-group"><label>Name</label><input type="text" name="name" required></div>
+          <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+        </div>
+        <div class="form-group"><label>Subject</label><input type="text" name="subject"></div>
+        <div class="form-group"><label>Message</label><textarea name="message" required></textarea></div>
+        <button class="btn btn-primary btn-block" type="submit">Send Message</button>
+      </form>
+    </div>
+    <div>
+      <div class="side-box">
+        <h4>Lok Jagruti Kendra University</h4>
+        <p style="color:var(--muted);font-size:14px">IEEE Student Branch<br>Chandkheda, Ahmedabad, Gujarat, India</p>
+      </div>
+      <div class="side-box">
+        <h4>Get in Touch</h4>
+        <div class="kv"><span class="k">Email</span><span class="v">cmt@ljku.edu.in</span></div>
+        <div class="kv"><span class="k">Phone</span><span class="v">+91 79 4890 0000</span></div>
+      </div>
+      <div class="side-box" style="padding:0;overflow:hidden">
+        <div style="background:var(--bg);height:200px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px">
+          &#128506; Google Maps Placeholder
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Departments | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Departments</h2>
+    <p class="section-sub">Explore conferences organized by each department of LJ University.</p>
+    <div class="grid grid-3">
+      {% for d in departments %}
+      <a href="{{ url_for('department_detail', did=d.id) }}" class="card card-body">
+        <h3>{{ d.name }}</h3>
+        <p style="color:var(--muted);font-size:13.5px">{{ d.description }}</p>
+        <span class="badge badge-current">{{ counts[d.id] }} conferences</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

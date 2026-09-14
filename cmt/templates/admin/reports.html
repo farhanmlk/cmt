@@ -1,0 +1,30 @@
+{% extends "admin/_layout.html" %}
+{% set active = 'reports' %}
+{% block title %}Reports | CMT{% endblock %}
+{% block admin_content %}
+<h2 class="section-title">Reports & Analytics</h2>
+<p class="section-sub">Generate and export reports for conferences, authors and submissions.</p>
+
+<div class="grid grid-3">
+  <div class="stat-card"><div class="num">{{ total_submissions }}</div><div class="label">Total Submissions</div></div>
+  <div class="stat-card"><div class="num">{{ total_authors }}</div><div class="label">Registered Authors</div></div>
+  <div class="stat-card"><div class="num">&#8377;{{ total_revenue }}</div><div class="label">Total Revenue</div></div>
+</div>
+
+<div style="margin:26px 0;display:flex;gap:12px;flex-wrap:wrap">
+  <a class="btn btn-primary" href="{{ url_for('admin_export_csv', kind='submissions') }}">Export Submissions CSV</a>
+  <a class="btn btn-primary" href="{{ url_for('admin_export_csv', kind='authors') }}">Export Authors CSV</a>
+  <a class="btn btn-primary" href="{{ url_for('admin_export_csv', kind='payments') }}">Export Payments CSV</a>
+  <button class="btn btn-outline-navy" onclick="window.print()">Print Report</button>
+</div>
+
+<h3>Department-wise Submissions</h3>
+<div class="table-wrap">
+  <table>
+    <tr><th>Department</th><th>Conferences</th><th>Submissions</th></tr>
+    {% for d in dept_stats %}
+    <tr><td>{{ d.name }}</td><td>{{ d.conferences }}</td><td>{{ d.submissions }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

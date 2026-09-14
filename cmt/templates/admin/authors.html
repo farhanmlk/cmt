@@ -1,0 +1,35 @@
+{% extends "admin/_layout.html" %}
+{% set active = 'authors' %}
+{% block title %}Manage Authors | CMT{% endblock %}
+{% block admin_content %}
+<h2 class="section-title">Manage Authors</h2>
+<p class="section-sub">Search, verify and review registered authors.</p>
+
+<form class="search-bar" method="get">
+  <input type="text" name="q" placeholder="Search by name, email or author ID..." value="{{ q }}">
+  <button class="btn btn-primary btn-sm" type="submit">Search</button>
+</form>
+
+<div class="table-wrap">
+  <table>
+    <tr><th>Author ID</th><th>Name</th><th>Email</th><th>Institution</th><th>Department</th><th>Verification</th><th>Action</th></tr>
+    {% for a in authors %}
+    <tr>
+      <td>{{ a.author_code }}</td>
+      <td>{{ a.name }}</td>
+      <td>{{ a.email }}</td>
+      <td>{{ a.institution }}</td>
+      <td>{{ a.department }}</td>
+      <td><span class="badge badge-{{ 'verified' if a.verification_status=='Verified' else 'pending' }}">{{ a.verification_status }}</span></td>
+      <td>
+        <form method="post" action="{{ url_for('admin_author_verify', aid=a.id) }}">
+          <button class="btn btn-outline-navy btn-sm" type="submit">{{ 'Unverify' if a.verification_status=='Verified' else 'Verify' }}</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" style="text-align:center;color:var(--muted)">No authors found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

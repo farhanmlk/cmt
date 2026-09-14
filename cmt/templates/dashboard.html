@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}My Dashboard | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Welcome, {{ author.name }}</h2>
+    <p class="section-sub">Author ID: <strong>{{ author.author_code }}</strong> &middot; Verification:
+      <span class="badge badge-{{ 'verified' if author.verification_status=='Verified' else 'pending' }}">{{ author.verification_status }}</span>
+    </p>
+
+    <div class="grid grid-4">
+      <div class="stat-card"><div class="num">{{ submissions|length }}</div><div class="label">My Papers</div></div>
+      <div class="stat-card"><div class="num">{{ registrations|length }}</div><div class="label">Registered Conferences</div></div>
+      <div class="stat-card"><div class="num">{{ accepted }}</div><div class="label">Accepted Papers</div></div>
+      <div class="stat-card"><div class="num">{{ pending }}</div><div class="label">Pending Reviews</div></div>
+    </div>
+
+    <div class="two-col" style="margin-top:32px">
+      <div>
+        <h3>My Submissions</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Abstract ID</th><th>Title</th><th>Conference</th><th>Type</th><th>Status</th></tr>
+            {% for s in submissions %}
+            <tr>
+              <td>{{ s.abstract_id }}</td>
+              <td>{{ s.paper_title }}</td>
+              <td>{{ s.conference.name }}</td>
+              <td>{{ s.presentation_type }}</td>
+              <td><span class="badge badge-{{ s.status|lower|replace(' ', '-') }}">{{ s.status }}</span></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="text-align:center;color:var(--muted)">No submissions yet. <a href="{{ url_for('submit_paper') }}">Submit your first paper</a></td></tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <h3 style="margin-top:28px">My Conference Registrations</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Registration ID</th><th>Conference</th><th>Amount</th><th>Payment</th><th></th></tr>
+            {% for r in registrations %}
+            <tr>
+              <td>{{ r.registration_id }}</td>
+              <td>{{ r.conference.name }}</td>
+              <td>&#8377;{{ r.amount }}</td>
+              <td><span class="badge badge-{{ 'paid' if r.payment_status=='Paid' else 'pending' }}">{{ r.payment_status }}</span></td>
+              <td><a class="btn btn-outline-navy btn-sm" href="{{ url_for('payment_page', rid=r.registration_id) }}">{{ 'View Receipt' if r.payment_status=='Paid' else 'Pay Now' }}</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" style="text-align:center;color:var(--muted)">No registrations yet.</td></tr>
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="side-box">
+          <h4>Notifications</h4>
+          {% for n in notifications %}
+          <div style="padding:10px 0;border-bottom:1px dashed var(--border)">
+            <strong style="font-size:13.5px">{{ n.title }}</strong>
+            <p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">{{ n.message }}</p>
+          </div>
+          {% else %}
+          <p style="color:var(--muted);font-size:13.5px">No notifications yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

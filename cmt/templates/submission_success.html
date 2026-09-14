@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Submission Successful | CMT{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="form-card" style="text-align:center">
+      <div style="font-size:44px;margin-bottom:10px">&#9989;</div>
+      <h3>Paper submitted successfully!</h3>
+      <div class="side-box" style="text-align:left;margin-top:20px">
+        <div class="kv"><span class="k">Abstract ID</span><span class="v">{{ sub.abstract_id }}</span></div>
+        <div class="kv"><span class="k">Paper Title</span><span class="v">{{ sub.paper_title }}</span></div>
+        <div class="kv"><span class="k">Conference</span><span class="v">{{ sub.conference.name }}</span></div>
+        <div class="kv"><span class="k">Submission Date</span><span class="v">{{ sub.submitted_at.strftime('%d %b %Y, %H:%M') }}</span></div>
+        <div class="kv"><span class="k">Status</span><span class="v"><span class="badge badge-submitted">{{ sub.status }}</span></span></div>
+      </div>
+      <div class="hero-actions" style="justify-content:center;margin-top:20px">
+        <button onclick="window.print()" class="btn btn-outline-navy">Print Receipt</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

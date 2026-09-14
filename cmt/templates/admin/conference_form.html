@@ -1,0 +1,58 @@
+{% extends "admin/_layout.html" %}
+{% set active = 'conferences' %}
+{% block title %}{{ 'Edit' if conf else 'Add' }} Conference | CMT{% endblock %}
+{% block admin_content %}
+<h2 class="section-title">{{ 'Edit Conference' if conf else 'Add New Conference' }}</h2>
+<div class="form-card" style="max-width:900px;margin:0">
+  <form method="post" enctype="multipart/form-data">
+    <div class="form-row">
+      <div class="form-group"><label>Conference Name</label><input type="text" name="name" value="{{ conf.name if conf else '' }}" required></div>
+      <div class="form-group">
+        <label>Department</label>
+        <select name="department_id" required>
+          {% for d in departments %}
+          <option value="{{ d.id }}" {{ 'selected' if conf and conf.department_id==d.id }}>{{ d.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea name="description">{{ conf.description if conf else '' }}</textarea></div>
+    <div class="form-group"><label>Objectives</label><textarea name="objectives">{{ conf.objectives if conf else '' }}</textarea></div>
+
+    <div class="form-row">
+      <div class="form-group"><label>Start Date</label><input type="date" name="start_date" value="{{ conf.start_date if conf else '' }}" required></div>
+      <div class="form-group"><label>End Date</label><input type="date" name="end_date" value="{{ conf.end_date if conf else '' }}" required></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Registration Deadline</label><input type="date" name="registration_deadline" value="{{ conf.registration_deadline if conf else '' }}" required></div>
+      <div class="form-group"><label>Paper Submission Deadline</label><input type="date" name="submission_deadline" value="{{ conf.submission_deadline if conf else '' }}" required></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Venue</label><input type="text" name="venue" value="{{ conf.venue if conf else '' }}"></div>
+      <div class="form-group"><label>Registration Fee (&#8377;)</label><input type="number" name="registration_fee" value="{{ conf.registration_fee if conf else 0 }}"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Contact Email</label><input type="email" name="contact_email" value="{{ conf.contact_email if conf else '' }}"></div>
+      <div class="form-group"><label>Contact Phone</label><input type="text" name="contact_phone" value="{{ conf.contact_phone if conf else '' }}"></div>
+    </div>
+    <div class="form-group">
+      <label>Status Override</label>
+      <select name="status_override">
+        <option value="">Auto (based on dates)</option>
+        <option value="upcoming" {{ 'selected' if conf and conf.status_override=='upcoming' }}>Upcoming</option>
+        <option value="current" {{ 'selected' if conf and conf.status_override=='current' }}>Current</option>
+        <option value="past" {{ 'selected' if conf and conf.status_override=='past' }}>Past</option>
+      </select>
+      <p class="hint">Leave as Auto to let the system determine status automatically from the dates above.</p>
+    </div>
+    <div class="form-group"><label>Keynote Speakers (one per line)</label><textarea name="keynote_speakers">{{ conf.keynote_speakers if conf else '' }}</textarea></div>
+    <div class="form-group"><label>Organizing Committee (one per line)</label><textarea name="committee">{{ conf.committee if conf else '' }}</textarea></div>
+    <div class="form-group"><label>Schedule (one item per line)</label><textarea name="schedule">{{ conf.schedule if conf else '' }}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Upload Brochure (PDF)</label><input type="file" name="brochure" accept=".pdf"></div>
+      <div class="form-group"><label>Upload Flyer (PDF/Image)</label><input type="file" name="flyer" accept=".pdf,.jpg,.png"></div>
+    </div>
+    <button class="btn btn-primary" type="submit">{{ 'Save Changes' if conf else 'Create Conference' }}</button>
+  </form>
+</div>
+{% endblock %}

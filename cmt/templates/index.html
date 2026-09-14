@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}CMT | LJ University{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-inner">
+    <span class="eyebrow">IEEE Student Branch &middot; LJ University</span>
+    <h1>Conference Management Tool</h1>
+    <p>A centralized platform for managing conferences, registrations and research paper submissions.</p>
+    <div class="hero-actions">
+      <a href="{{ url_for('conferences') }}" class="btn btn-accent">Explore Conferences</a>
+      <a href="{{ url_for('submit_paper') }}" class="btn btn-outline">Submit Your Paper</a>
+      <a href="{{ url_for('register') }}" class="btn btn-outline">Register Now</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-4" style="margin-top:-96px;position:relative;z-index:2">
+      <div class="stat-card"><div class="num">{{ stats.total_conferences }}</div><div class="label">Total Conferences</div></div>
+      <div class="stat-card"><div class="num">{{ stats.upcoming }}</div><div class="label">Upcoming Conferences</div></div>
+      <div class="stat-card"><div class="num">{{ stats.authors }}</div><div class="label">Registered Authors</div></div>
+      <div class="stat-card"><div class="num">{{ stats.submissions }}</div><div class="label">Papers Submitted</div></div>
+    </div>
+  </div>
+</section>
+
+{% if current_list %}
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <h2 class="section-title">Featured / Current Conference{{ 's' if current_list|length > 1 else '' }}</h2>
+    <p class="section-sub">Live and ongoing conferences happening right now across LJ University.</p>
+    <div class="grid grid-3">
+      {% for c in current_list %}
+      {% include "_conference_card.html" %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" style="padding-top:0;background:#fff">
+  <div class="container">
+    <h2 class="section-title">Upcoming Conferences</h2>
+    <p class="section-sub">Mark your calendar &mdash; explore the conferences coming up soon.</p>
+    <div class="grid grid-3">
+      {% for c in upcoming_list %}
+      {% include "_conference_card.html" %}
+      {% else %}
+      <div class="empty-state">No upcoming conferences right now. Please check back soon.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Departments</h2>
+    <p class="section-sub">Browse conferences organized department-wise.</p>
+    <div class="grid grid-4">
+      {% for d in departments %}
+      <a href="{{ url_for('department_detail', did=d.id) }}" class="card card-body">
+        <h3 style="font-size:16px;color:var(--navy)">{{ d.name }}</h3>
+        <p style="font-size:13px;color:var(--muted);margin:0">{{ d.code }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">From registration to final acceptance &mdash; a simple, transparent process.</p>
+    <div class="steps-grid">
+      <div class="card card-body">
+        <div class="step-num">1</div>
+        <h3 style="font-size:15.5px">Register as Author</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">Create your author profile and receive a unique Author ID.</p>
+      </div>
+      <div class="card card-body">
+        <div class="step-num">2</div>
+        <h3 style="font-size:15.5px">Submit Your Paper</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">Upload your abstract/paper and get a unique Abstract ID instantly.</p>
+      </div>
+      <div class="card card-body">
+        <div class="step-num">3</div>
+        <h3 style="font-size:15.5px">Track & Get Reviewed</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">Track your submission status through our review pipeline.</p>
+      </div>
+      <div class="card card-body">
+        <div class="step-num">4</div>
+        <h3 style="font-size:15.5px">Register & Present</h3>
+        <p style="color:var(--muted);font-size:13.5px;margin:0">Pay the registration fee and present at the conference.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container two-col">
+    <div>
+      <h2 class="section-title">About CMT</h2>
+      <p style="color:var(--muted)">
+        The Conference Management Tool (CMT) is a centralized platform built for Lok Jagruti Kendra
+        University to manage the complete conference lifecycle &mdash; from publishing calls for papers,
+        author registration and paper submission, to review tracking, payments and reporting &mdash;
+        across every department of the university.
+      </p>
+      <a href="{{ url_for('about') }}" class="btn btn-outline-navy">Learn More About CMT</a>
+    </div>
+    <div class="side-box">
+      <h4>Important Deadlines</h4>
+      {% for c in upcoming_list[:4] %}
+      <div class="kv"><span class="k">{{ c.name[:28] }}{{ '...' if c.name|length > 28 else '' }}</span><span class="v">{{ c.submission_deadline.strftime('%d %b') }}</span></div>
+      {% else %}
+      <p style="color:var(--muted);font-size:13.5px">No deadlines to show right now.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}
